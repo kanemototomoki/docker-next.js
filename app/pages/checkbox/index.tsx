@@ -1,33 +1,13 @@
-import { useState } from 'react';
+import { useChecks } from './hooks';
 
 const labels = ['check 1', 'check 2', 'check 3'];
 
 export default function CheckBox() {
-  const [checkList, setCheckList] = useState([false, false, false]);
-
-  // index番目のチェック状態を反転させる
-  const handleCheckClick = (index: number) => {
-    setCheckList((checks) => checks.map((c, i) => (i === index ? !c : c)));
-  };
-
-  const isAllChecked = checkList.every((x) => x);
+  const [isAllChecked, renderChecks] = useChecks(labels);
 
   return (
     <div>
-      <ul>
-        {labels.map((label, idx) => (
-          <li key={idx}>
-            <label>
-              <input
-                type='checkbox'
-                checked={checkList[idx]}
-                onClick={() => handleCheckClick(idx)}
-              />
-              {label}
-            </label>
-          </li>
-        ))}
-      </ul>
+      {renderChecks()}
       <p>
         <button disabled={!isAllChecked}>次へ</button>
       </p>
